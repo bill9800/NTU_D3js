@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>NTU D3js HW01</title>
     <link rel="stylesheet" type="text/css" href="main.css">
+    <script src="https://d3js.org/d3.v3.min.js"></script>
 </head>
 <body>
 <!-- page 4 -->
@@ -78,7 +79,17 @@
     <img src="http://www.google.com/logos/doodles/2015/evidence-of-water-found-on-mars-5652760466817024.2-hp2x.gif" alt="在火星上發現水存在的證據" width = "400">
 </a>
 <hr>
-<!-- page -->
+<!--02 page 58 -->
+    <h1>一個1911~2016之間的數字</h1>
+    <p id='num1'></p>
+    <input type="button" onclick="launch()" value="啟動">
+    <script>
+        function launch(){
+            var number = Math.floor(Math.random()*106)+1911;
+            d3.select('#num1').text(number);
+        }
+        
+    </script>
 
 
 </body>

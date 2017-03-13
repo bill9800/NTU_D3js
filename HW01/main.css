@@ -10,3 +10,13 @@ div{
     font-weight: 300;
     line-height: 1em;
 }
+input[type="button"]{
+  width: 3em;
+  font-size: 2em;
+}
+#num1{
+  border: 2px solid blue;
+  height: 1em;
+  width: 6em;
+  padding: .5em;
+}
