@@ -217,12 +217,14 @@
             }).text('Q5');
         </script>
     <!--    06-page22-->
+        <p></p>
         <script>
             var arr = [85,60,99,49,77,82];
             bind(arr)
             render()
             function bind(data){
                 var selection = d3.select('div.Q5')
+                                  .selectAll('p')
                                   .data(data);
                 selection.enter().append('p');
                 selection.exit().remove();                              
