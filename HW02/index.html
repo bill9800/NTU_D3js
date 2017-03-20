@@ -2,10 +2,249 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Untitled Document</title>
+    <title>HW02</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script src="https://d3js.org/d3.v3.min.js"></script>
 </head>
 <body>
-hahaha
+    <div>
+    <!-- 04-page15-Q1-->
+        <svg class='Q1' width='400' height = '300'></svg>
+        <script>
+            d3.select('svg.Q1')
+              .append('text')
+              .attr({
+                "x" : 10,
+                "y" : 50,
+                'font-size': '30',
+                'font-family':'arial'
+            }).text('Q1');
+
+            d3.select('svg.Q1')
+              .append('circle')
+              .attr({
+                "cx":150,
+                "cy":175,
+                "r" :15
+            });
+            d3.select('svg.Q1')
+              .append('rect')
+              .attr({
+                "x" : 160,
+                "y" : 100,
+                "width" : 5,
+                "height" : 78
+            });
+
+            for(var i=0;i<5;i++){
+                d3.select('svg.Q1')
+                  .append('line')
+                  .attr({
+                    "x1" :10,
+                    "y1" :100+30*i,
+                    "x2" :300,
+                    "y2" :100+30*i,
+                    "stroke":'black',
+                    "stroke-width":1
+                });
+            }
+            d3.select('svg.Q1')
+              .append('text')
+              .attr({
+                "x" : 140,
+                "y" : 260,
+                'font-size': '30',
+                'font-family':'arial'
+            }).text('A');
+        </script>
+    </div>           
+    <hr>
+    <div>
+    <!--   04-page-23   -->
+        <svg class='Q2' width='400' height = '360'></svg>
+        <script>
+            d3.select('svg.Q2')
+              .append('text')
+              .attr({
+                "x" : 10,
+                "y" : 50,
+                'font-size': '30',
+                'font-family':'arial'
+            }).text('Q2');
+            
+            for(var i=0;i<20;i++){
+                var wid = Math.floor(Math.random()*281)+20;
+                d3.select('svg.Q2')
+                  .append('rect')
+                  .attr({
+                    'x':10,
+                    'y':80+12*i,
+                    'width': wid,
+                    'height':10,
+                    'fill':'red'
+                });
+                d3.select('svg.Q2')
+                  .append('text')
+                  .attr({
+                    'x':10+wid+15,
+                    'y':80+12*i+10,
+                    'font-size':12
+
+                }).text(wid);
+            }
+        </script>   
+    </div>
+    <hr>
+    <div>
+    <!--   04-page-23   -->
+        <svg class='Q3' width='400' height = '360'></svg>
+        <script> 
+            d3.select('svg.Q3')
+              .append('text')
+              .attr({
+                "x" : 10,
+                "y" : 50,
+                'font-size': '30',
+                'font-family':'arial'
+            }).text('Q3');
+            
+            //plot
+            var pos_x = 10;
+            var pos_y = 70;
+            for(var i=0;i<20;i++){
+                //line plot with circle
+                var wid = Math.floor(Math.random()*281)+20;
+                d3.select('svg.Q3')
+                  .append('circle')
+                  .attr({
+                    'cx':10+wid,
+                    'cy':70+12*i+12,
+                    'r':5,
+                    'fill':'#00baff'
+                });
+
+                d3.select('svg.Q3')
+                  .append('line')
+                  .attr({
+                    'x1':pos_x,
+                    'x2':10+wid,
+                    'y1':pos_y,
+                    'y2':70+12*i+12,
+                    'stroke':'#c3681b',
+                    'stroke-width' : 1
+                });//connect line
+
+                pos_x = 10+wid;
+                pos_y = 70+12*i+12;
+
+                d3.select('svg.Q3')
+                  .append('text')
+                  .attr({
+                    'x':10+wid+15,
+                    'y':82+12*i+5,
+                    'font-size':12
+
+                }).text(wid);
+            }
+
+            d3.select('svg.Q3')
+              .append('line')
+              .attr({
+                'x1':pos_x,
+                'x2':10,
+                'y1':pos_y,
+                'y2':70+12*21,
+                'stroke':'#c3681b',
+                'stroke-width' : 1
+            });
+        </script>
+    </div>
+    <hr>
+    <div>
+    <!--05-page35-Q4-->
+    <svg class='Q4' width='800' height = '320'></svg>
+        <script>
+            d3.select('svg.Q4')
+              .append('text')
+              .attr({
+                "x" : 10,
+                "y" : 50,
+                'font-size': '30',
+                'font-family':'arial'
+            }).text('Q4');
+            
+            var count = 0;
+            d3.csv("invoice.csv",function(dataSet){
+                console.table(dataSet);
+                for(var i=0;i<dataSet.length;i++){
+                    if(dataSet[i].amount>10**9&&dataSet[i].cid==='A'&&dataSet[i].date ==='2016/8/1'){
+                       d3.select('svg.Q4')
+                         .append('rect')
+                         .attr({
+                             x:300,
+                             y:70+20*count,
+                             width : dataSet[i].amount/10**8,
+                             height:10,
+                             fill:'red'
+                         });
+                        d3.select('svg.Q4')
+                          .append('text')
+                          .attr({
+                            x:10,
+                            y:16+20*count+70,
+                            'font-size': 15
+                        }).text(dataSet[i].industry);
+                        count++;
+                    }
+                }
+            });
+            function get(d){
+                return d;
+            }
+        </script>
+    </div>
+    <hr>
+    <div class='Q5'>
+    <svg class='Q5' width='800' height = '60'></svg>
+        <script>
+            d3.select('svg.Q5')
+              .append('text')
+              .attr({
+                "x" : 10,
+                "y" : 50,
+                'font-size': '30',
+                'font-family':'arial'
+            }).text('Q5');
+        </script>
+    <!--    06-page22-->
+        <script>
+            var arr = [85,60,99,49,77,82];
+            bind(arr)
+            render()
+            function bind(data){
+                var selection = d3.select('div.Q5')
+                                  .data(data);
+                selection.enter().append('p');
+                selection.exit().remove();                              
+            }
+            function render(){
+                d3.selectAll('p')
+                  .style({
+                    'color':function(d,i){
+                        if(d<70){
+                            return 'red';
+                        }else{
+                            return 'black';
+                        }
+                    }
+                }) 
+                  .text(function(d,i){
+                    return i+' : '+d;
+                })
+                   
+            }
+        </script>
+    </div>
 
 
 </body>
