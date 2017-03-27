@@ -12,9 +12,19 @@
             shape-rendering:auto;
         }
         .axis3 text{
-            font-size:11px;
+            font-size:12px;
             fill:blue;
         }
+        .axis4 path,.axis4 line{
+            fill:none;
+            stroke:black;
+            shape-rendering:auto;
+        }
+        .axis4 text{
+            font-size:12px;
+            fill:blue;
+        }
+        
     </style>
 </head>
 <body>
@@ -134,10 +144,10 @@
     </div>
     <br>
     <hr>
-    <div>
+    <div class = 'Q3'>
     <!--06-page25-Q3-->
     <h1>Q3</h1>
-    <svg class='Q3' width='800' height = '380'></svg>
+    <svg class='Q3' width='800' height = '300'></svg>
         <script>
             var count = 0;
             d3.csv("invoice.csv",function(dataSet){
@@ -203,13 +213,103 @@
                 .call(xAxis3);
 
             }
-
-            
-            
-            
             
         </script>
     </div>
+    <br>
+    <hr>
+    <div class='Q4'>
+    <!--06-page25-Q4-->
+        
+        <script>
+            // 1. 定義width, height, padding, letterList變數
+            var w = 1000;
+            var h = 600;
+            var padding = 100; //旁邊間隔
+            var letterList = ["A","B","C","D","E","F","G","H","I","J","K","M","N","O","P","Q","T","U","V","W","X","Z"];
 
+            //2. 建立svg()畫布環境
+
+            svg4();       
+
+            //3. 用d3讀取csv
+            d3.csv("invoice.csv",mid, function(dataSet){
+
+               bind(dataSet);
+               render(dataSet);
+
+            });
+
+
+            function mid(d){
+                d.amount = +d.amount;
+                d.number = +d.number;
+                return d;
+            }
+
+
+
+            function svg4(){
+               d3.select("body").append("svg").attr({width:w,height:h,class:'Q4'});
+                d3.select("svg.Q4").append("g").append("rect").attr({
+                    width: "100%",
+                    height: "100%",
+                    fill: "white"
+                });
+            }
+
+            //4. 建立bind()
+
+            function bind(dataSet){
+                var selection = d3.select("svg.Q4")
+                                    .selectAll('circle')
+                                    .attr({class:'Q4'})
+                                    .data(dataSet);
+
+                selection.enter().append("circle").attr({class:'Q4'});
+                selection.exit().remove();
+            }
+
+            function render(dataSet){
+                //5. 定義xScale,yScale,rScale, fScale比例尺(range目的在決定在svg上位置)
+
+               var xScale4 = d3.time.scale()
+                        .domain([new Date('2013/01/01'),new Date('2016/08/31')])
+                        .range([padding,w-padding]);
+               var yScale4 = d3.scale.linear()
+                        .domain([0,d3.max(dataSet,function(d){return d.number;})])
+                        .range([h-padding,padding]);
+               var rScale4 = d3.scale.linear()
+                        .domain([d3.min(dataSet,function(d){
+                            return d.amount;
+                        }),d3.max(dataSet,function(d){
+                            return d.amount;
+                        })])
+                        .range([5,30]);
+               var fScale4 = d3.scale.category20();
+
+               var xAxis4 = d3.svg.axis().scale(xScale4).orient('bottom').ticks(12);
+
+               var yAxis4 = d3.svg.axis().scale(yScale4).orient('left').ticks(12);
+                //6. 建立render()繪圖
+                d3.selectAll('circle.Q4')
+                  .attr({
+                    cx: function(d){return xScale4(new Date(d.date));},
+                    cy: function(d){return yScale4(d.number);},
+                    r: function(d){return rScale4(d.amount);},
+                    fill: function(d){return fScale4(d.cid);}
+                  });
+                d3.select('svg.Q4').append('g')
+                                .attr('class','axis4')
+                                .attr('transform','translate(0,'+(h-padding+20)+')')
+                                .call(xAxis4);
+                d3.select('svg.Q4').append('g')
+                                  .attr('class','axis4')
+                                  .attr('transform','translate(70,0)')
+                                  .call(yAxis4);
+            }
+    </script>
+    </div>
+    
 </body>
 </html>
