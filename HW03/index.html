@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HW03</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+<body>
+    <!--    06-page25-->
+    <div class='Q1'>
+        <h1> Q1 </h1> 
+        <script>
+            var arr = [85,60,99,49,77,82];
+            var w=800; //svg-width
+            var h=300; //svg-height
+            var p=80; 
+            var m=10; //left-margin
+            
+            svg1()
+            bind1(arr)
+            render1()
+            
+            function svg1(){
+                d3.select('div.Q1')
+                  .append('svg')
+                  .attr({
+                    'width': w,
+                    'height': h,
+                    'class':'Q1'
+                })
+            }
+            
+            function bind1(data){
+                var selection = d3.select('svg.Q1')
+                                  .selectAll('rect')
+                                  .attr({'class':'Q1'})
+                                  .data(data);
+                selection.enter().append('rect').attr({'class':'Q1'});
+                selection.exit().remove(); 
+                
+                var selection_text = d3.select('svg.Q1')
+                                       .selectAll('text')
+                                       .attr({'class':'Q1'})
+                                       .data(data);
+                selection.enter().append('text').attr({'class':'Q1'});
+                selection.exit().remove();
+                
+            }
+            function render1(){
+                d3.selectAll('rect.Q1')
+                  .attr({
+                    x: function(d,i){return m+43*i},
+                    y: function(d){return h-p-d},
+                    width:40,
+                    height:function(d){return d;},
+                    fill:function(d){
+                        if(d<70){
+                            return 'red';
+                        }
+                        else{
+                            return 'green';
+                        }
+                    }
+                })
+                
+                d3.selectAll('text.Q1')
+                  .attr({
+                    x: function(d,i){return m+43*i+13},
+                    y: function(d){return h-p+20},
+                }).text(function(d){return d});
+                   
+            }
+            
+            function update(){
+                var num = random(10,100);
+                arr.push(num);
+                bind1(arr);
+                render1();
+            }
+            
+            
+            function remove(){
+                arr.pop();
+                bind1(arr);
+                render1();
+            }
+            
+            
+            function random(N,M){
+                return Math.ceil(Math.random()*(M-N)+N);
+            }
+        </script>
+        
+        <p>
+            <input type="button" value="新增" onclick='update()'>
+            <input type="button" value='移除' onclick='remove()'>  
+        </p>
+
+
+        
+    </div>
+    <br>
+    <hr>
+    <div class = 'Q2'>
+       <h1>Q2</h1>
+       <p></p>
+       <script>
+            var arr2 =['中國國民黨','民主進步黨','時代力量','無黨團結聯盟','親民黨']
+            var arr2_color = ['red','blue','green','gray','yellow'];
+            var xScale = d3.scale.ordinal()
+                                 .domain(arr2)
+                                 .range(arr2_color);
+            
+            function call_color(){
+                var x =document.forms['myParty']['party'].value;
+                alert(xScale(x))
+            }
+        </script>
+        <form name='myParty' onSubmit="return call_color()">
+          選擇政黨-得知顏色: <input name='party' type="text" value="中國國民黨,民主進步黨,時代力量,無黨團結聯盟,親民黨"><br>
+        </form>
+    </div>
+    <br>
+    <hr>
+    <div>
+    <!--06-page25-Q3-->
+    <h1>Q3</h1>
+    <svg class='Q3' width='800' height = '380'></svg>
+        <script>
+            var count = 0;
+            d3.csv("invoice.csv",function(dataSet){
+                for(var i=0;i<dataSet.length;i++){
+                    if(dataSet[i].amount>10**9&&dataSet[i].cid==='A'&&dataSet[i].date ==='2016/8/1'){
+                       d3.select('svg.Q3')
+                         .append('rect')
+                         .attr({
+                             x:300,
+                             y:70+20*count,
+                             width : dataSet[i].amount/10**8,
+                             height:10,
+                             fill:'red',
+                             'class':'Q3'
+                         });
+                        d3.select('svg.Q3')
+                          .append('text')
+                          .attr({
+                            x:10,
+                            y:16+20*count+70,
+                            'font-size': 15,
+                            'class':'Q3'
+                        }).text(dataSet[i].industry);
+                        count++;
+                    }
+                }
+            });
+
+            
+            bind3(dataSet);
+            render3();
+
+            function bind3(dataSet){
+              var selection = d3.select("svg.Q3")
+              .selectAll("rect")
+              .attr({'class':'Q3'})
+              .data(dataSet);
+              selection.enter().append("rect");
+              selection.exit().remove();
+
+              var selection_text = d3.select("svg.Q3")
+              .selectAll("text")
+              .attr({'class':'Q3'})
+              .data(dataSet);
+              selection_text.enter().append("text");
+              selection_text.exit().remove();
+            }  
+            
+            function render3(){
+
+              var xScale3 = d3.scale.linear()
+                             .domain([0,d3.max(dataSet,function(d){return d.amount;})])
+              .range([10,250]);
+
+              var xAxis3 = d3.svg.axis().scale(xScale).orient('bottom').ticks(12)
+                            .tickFormat(function(d){return d/10000000000+"G";});
+
+
+
+              d3.selectAll("rect.Q3")
+                .attr({
+                x: 300,
+                y: function(d,i){
+                  return 10+20*i;
+                },
+                width: function(d,i){
+                  return d.amount/100000000;
+                },
+                height: 18,
+                fill: "red"
+              });
+              d3.selectAll("text.Q3")
+                .attr({
+                x: 10,
+                y: function(d,i){
+                  return 25+20*i;
+                }
+              }).text(function(d){
+                return d.industry;
+              });
+
+              d3.select('svg.Q3').append('g')
+                .classed('axis',true)
+                .attr('transform','translate(300,250)').call(xAxis3);
+
+            }
+
+            
+            
+            
+            
+        </script>
+    </div>
+
+</body>
+</html>
