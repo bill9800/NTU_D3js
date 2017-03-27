@@ -32,47 +32,47 @@
     <div class='Q1'>
         <h1> Q1 </h1> 
         <script>
-            var arr = [85,60,99,49,77,82];
-            var w=800; //svg-width
-            var h=300; //svg-height
-            var p=80; 
-            var m=10; //left-margin
+            var arr1 = [85,60,99,49,77,82];
+            var w1=800; //svg-width
+            var h1=300; //svg-height
+            var p1=80; 
+            var m1=10; //left-margin
             
             svg1()
-            bind1(arr)
+            bind1(arr1)
             render1()
             
             function svg1(){
                 d3.select('div.Q1')
                   .append('svg')
                   .attr({
-                    'width': w,
-                    'height': h,
+                    'width': w1,
+                    'height': h1,
                     'class':'Q1'
                 })
             }
             
             function bind1(data){
-                var selection = d3.select('svg.Q1')
+                var selection1 = d3.select('svg.Q1')
                                   .selectAll('rect')
                                   .attr({'class':'Q1'})
                                   .data(data);
-                selection.enter().append('rect').attr({'class':'Q1'});
-                selection.exit().remove(); 
+                selection1.enter().append('rect').attr({'class':'Q1'});
+                selection1.exit().remove(); 
                 
-                var selection_text = d3.select('svg.Q1')
+                var selection_text1 = d3.select('svg.Q1')
                                        .selectAll('text')
                                        .attr({'class':'Q1'})
                                        .data(data);
-                selection.enter().append('text').attr({'class':'Q1'});
-                selection.exit().remove();
+                selection_text1.enter().append('text').attr({'class':'Q1'});
+                selection_text1.exit().remove();
                 
             }
             function render1(){
                 d3.selectAll('rect.Q1')
                   .attr({
-                    x: function(d,i){return m+43*i},
-                    y: function(d){return h-p-d},
+                    x: function(d,i){return m1+43*i},
+                    y: function(d){return h1-p1-d},
                     width:40,
                     height:function(d){return d;},
                     fill:function(d){
@@ -87,23 +87,23 @@
                 
                 d3.selectAll('text.Q1')
                   .attr({
-                    x: function(d,i){return m+43*i+13},
-                    y: function(d){return h-p+20},
+                    x: function(d,i){return m1+43*i+13},
+                    y: function(d){return h1-p1+20},
                 }).text(function(d){return d});
                    
             }
             
-            function update(){
+            function update1(){
                 var num = random(10,100);
-                arr.push(num);
-                bind1(arr);
+                arr1.push(num);
+                bind1(arr1);
                 render1();
             }
             
             
-            function remove(){
-                arr.pop();
-                bind1(arr);
+            function remove1(){
+                arr1.pop();
+                bind1(arr1);
                 render1();
             }
             
@@ -114,8 +114,8 @@
         </script>
         
         <p>
-            <input type="button" value="新增" onclick='update()'>
-            <input type="button" value='移除' onclick='remove()'>  
+            <input type="button" value="新增" onclick='update1()'>
+            <input type="button" value='移除' onclick='remove1()'>  
         </p>
 
 
@@ -220,65 +220,49 @@
     <hr>
     <div class='Q4'>
     <!--06-page25-Q4-->
-        
+        <h1>Q4</h1>
         <script>
             // 1. 定義width, height, padding, letterList變數
-            var w = 1000;
-            var h = 600;
-            var padding = 100; //旁邊間隔
+            var w4 = 1000;
+            var h4 = 600;
+            var padding4 = 100; //旁邊間隔
             var letterList = ["A","B","C","D","E","F","G","H","I","J","K","M","N","O","P","Q","T","U","V","W","X","Z"];
-
             //2. 建立svg()畫布環境
-
             svg4();       
-
             //3. 用d3讀取csv
             d3.csv("invoice.csv",mid, function(dataSet){
-
-               bind(dataSet);
-               render(dataSet);
-
+               bind4(dataSet);
+               render4(dataSet);
             });
-
-
             function mid(d){
                 d.amount = +d.amount;
                 d.number = +d.number;
                 return d;
             }
-
-
-
             function svg4(){
-               d3.select("body").append("svg").attr({width:w,height:h,class:'Q4'});
+               d3.select("body").append("svg").attr({width:w4,height:h4,class:'Q4'});
                 d3.select("svg.Q4").append("g").append("rect").attr({
                     width: "100%",
                     height: "100%",
                     fill: "white"
                 });
             }
-
             //4. 建立bind()
-
-            function bind(dataSet){
-                var selection = d3.select("svg.Q4")
+            function bind4(dataSet){
+                var selection4 = d3.select("svg.Q4")
                                     .selectAll('circle')
-                                    .attr({class:'Q4'})
                                     .data(dataSet);
-
-                selection.enter().append("circle").attr({class:'Q4'});
-                selection.exit().remove();
+                selection4.enter().append("circle").attr({class:'Q4'});
+                selection4.exit().remove();
             }
-
-            function render(dataSet){
+            function render4(dataSet){
                 //5. 定義xScale,yScale,rScale, fScale比例尺(range目的在決定在svg上位置)
-
                var xScale4 = d3.time.scale()
                         .domain([new Date('2013/01/01'),new Date('2016/08/31')])
-                        .range([padding,w-padding]);
+                        .range([padding4,w4-padding4]);
                var yScale4 = d3.scale.linear()
                         .domain([0,d3.max(dataSet,function(d){return d.number;})])
-                        .range([h-padding,padding]);
+                        .range([h4-padding4,padding4]);
                var rScale4 = d3.scale.linear()
                         .domain([d3.min(dataSet,function(d){
                             return d.amount;
@@ -287,9 +271,7 @@
                         })])
                         .range([5,30]);
                var fScale4 = d3.scale.category20();
-
                var xAxis4 = d3.svg.axis().scale(xScale4).orient('bottom').ticks(12);
-
                var yAxis4 = d3.svg.axis().scale(yScale4).orient('left').ticks(12);
                 //6. 建立render()繪圖
                 d3.selectAll('circle.Q4')
@@ -301,7 +283,7 @@
                   });
                 d3.select('svg.Q4').append('g')
                                 .attr('class','axis4')
-                                .attr('transform','translate(0,'+(h-padding+20)+')')
+                                .attr('transform','translate(0,'+(h4-padding4+20)+')')
                                 .call(xAxis4);
                 d3.select('svg.Q4').append('g')
                                   .attr('class','axis4')
@@ -310,6 +292,110 @@
             }
     </script>
     </div>
+    <hr>
+    
+    <div class='Q5'>
+    <!-- 06-interaction-page32-->
+        <h1>Q5</h1>
+        <script>
+             var svg5 = d3.select("body").append("svg").attr({
+                width: "340",
+                height: "380",
+                class: 'Q5'
+                });
+            svg5.append("g").append("rect").attr({
+                fill: "white",
+                width: "100%",
+                height: "100%",
+                class:'Q5'
+            });
+          
+            
+            var easeArr = ["linear", "quad", "cubic", "sin", "exp", "circle", "elastic", "back", "bounce"];
+
+            bind5(easeArr);
+            render5(easeArr);
+
+            function bind5(dataSet5){
+              var selection_circle5 =    d3.select("svg.Q5").selectAll("circle.Q5").data(dataSet5);
+              var selection_text5 =  d3.select("svg.Q5").selectAll("text.Q5").data(dataSet5);
+              var selection_line5 =  d3.select("svg.Q5").selectAll("line.Q5").data(dataSet5);
+
+              // 初始化設定
+              selection_line5.enter().append("line").attr({
+                    x1: 100,
+                    y1: function(d,i){
+                       return 20+i*35;
+                    },
+                    x2: 300,
+                    y2: function(d,i){
+                       return 20+i*35;
+                    },
+                    stroke: "lightgreen",
+                    class:'Q5'
+               }).text(function(d){
+                  return d;
+               });
+              selection_line5.exit().remove();
+
+              selection_circle5.enter().append("circle").attr({
+                    cx: 100,
+                    cy: function(d,i){
+                       return 20+i*35;
+                    },
+                    r: 15,
+                    fill: "gold",
+                    class:'Q5'
+               });
+              selection_circle5.exit().remove();
+
+              selection_text5.enter().append("text").attr({
+                    x: 5,
+                    y: function(d,i){
+                       return 25+i*35;
+                    },
+                    fill: "black",
+                    class:'Q5'
+               }).text(function(d){
+                  return d;
+               });
+              selection_text5.exit().remove();
+
+
+            } 
+
+            function render5(dataSet5){
+
+              //需要動畫的設定
+              d3.select("svg.Q5").selectAll("circle.Q5")
+              .on("click", function(d){
+                 var coordinates = [0, 0];
+                 coordinates = d3.mouse(this);
+                 var x = coordinates[0];
+                 var y = coordinates[1];
+                 if(x< 115 && x>85){
+                    d3.select(this).transition().duration(1000).ease(d).attr({
+                        cx:300
+                    });
+                 }
+                 if(x>285 && x<315){
+                     d3.select(this).transition().duration(1000).ease(d).attr({
+                        cx:100
+                    });
+                 }
+              });
+
+
+            }
+    
+        </script>
+        
+    
+    
+    
+    </div>
+    
+    
     
 </body>
 </html>
