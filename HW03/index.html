@@ -5,6 +5,17 @@
     <title>HW03</title>
     <link rel="stylesheet" type="text/css" href="main.css">
     <script src="https://d3js.org/d3.v3.min.js"></script>
+    <style type="text/css">
+        .axis3 path, .axis3 line{
+            fill:none;
+            stroke:black;
+            shape-rendering:auto;
+        }
+        .axis3 text{
+            font-size:11px;
+            fill:blue;
+        }
+    </style>
 </head>
 <body>
     <!--    06-page25-->
@@ -108,13 +119,13 @@
        <script>
             var arr2 =['中國國民黨','民主進步黨','時代力量','無黨團結聯盟','親民黨']
             var arr2_color = ['red','blue','green','gray','yellow'];
-            var xScale = d3.scale.ordinal()
+            var xScale2 = d3.scale.ordinal()
                                  .domain(arr2)
                                  .range(arr2_color);
             
             function call_color(){
                 var x =document.forms['myParty']['party'].value;
-                alert(xScale(x))
+                alert(xScale2(x))
             }
         </script>
         <form name='myParty' onSubmit="return call_color()">
@@ -130,87 +141,66 @@
         <script>
             var count = 0;
             d3.csv("invoice.csv",function(dataSet){
-                for(var i=0;i<dataSet.length;i++){
-                    if(dataSet[i].amount>10**9&&dataSet[i].cid==='A'&&dataSet[i].date ==='2016/8/1'){
-                       d3.select('svg.Q3')
-                         .append('rect')
-                         .attr({
-                             x:300,
-                             y:70+20*count,
-                             width : dataSet[i].amount/10**8,
-                             height:10,
-                             fill:'red',
-                             'class':'Q3'
-                         });
-                        d3.select('svg.Q3')
-                          .append('text')
-                          .attr({
-                            x:10,
-                            y:16+20*count+70,
-                            'font-size': 15,
-                            'class':'Q3'
-                        }).text(dataSet[i].industry);
-                        count++;
-                    }
-                }
-            });
+                        bind3(dataSet);
+                        render3(dataSet);
+                    });
 
-            
-            bind3(dataSet);
-            render3();
 
             function bind3(dataSet){
               var selection = d3.select("svg.Q3")
               .selectAll("rect")
               .attr({'class':'Q3'})
               .data(dataSet);
-              selection.enter().append("rect");
+              selection.enter().append("rect").attr({'class':'Q3'});
               selection.exit().remove();
 
               var selection_text = d3.select("svg.Q3")
               .selectAll("text")
               .attr({'class':'Q3'})
               .data(dataSet);
-              selection_text.enter().append("text");
+              selection_text.enter().append("text").attr({'class':'Q3'});
               selection_text.exit().remove();
             }  
             
-            function render3(){
+            function render3(dataSet){
 
               var xScale3 = d3.scale.linear()
                              .domain([0,d3.max(dataSet,function(d){return d.amount;})])
-              .range([10,250]);
+              .range([10,300]);
 
-              var xAxis3 = d3.svg.axis().scale(xScale).orient('bottom').ticks(12)
-                            .tickFormat(function(d){return d/10000000000+"G";});
+              var xAxis3 = d3.svg.axis().scale(xScale3).orient('bottom').ticks(12)
+                            .tickFormat(function(d){return d/100000000+"G";});
 
-
-
-              d3.selectAll("rect.Q3")
-                .attr({
-                x: 300,
-                y: function(d,i){
-                  return 10+20*i;
-                },
-                width: function(d,i){
-                  return d.amount/100000000;
-                },
-                height: 18,
-                fill: "red"
-              });
-              d3.selectAll("text.Q3")
-                .attr({
-                x: 10,
-                y: function(d,i){
-                  return 25+20*i;
+                
+              for(var i=0;i<dataSet.length;i++){
+                    for(var i=0;i<dataSet.length;i++){
+                    if(dataSet[i].amount>10**9&&dataSet[i].cid==='A'&&dataSet[i].date ==='2016/8/1'){
+                       d3.select('svg.Q3')
+                         .append('rect')
+                         .attr({
+                             x:300,
+                             y:20+20*count,
+                             width : dataSet[i].amount/10**8,
+                             height:10,
+                             fill:'red'
+                         });
+                        d3.select('svg.Q3')
+                          .append('text')
+                          .attr({
+                            x:10,
+                            y:16+20*count+20,
+                            'font-size': 15
+                        }).text(dataSet[i].industry);
+                        count++;
+                    }
                 }
-              }).text(function(d){
-                return d.industry;
-              });
+              }
+                
 
               d3.select('svg.Q3').append('g')
-                .classed('axis',true)
-                .attr('transform','translate(300,250)').call(xAxis3);
+                .attr({'class':'axis3'})
+                .attr('transform','translate(290,250)')
+                .call(xAxis3);
 
             }
 
