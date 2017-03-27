@@ -12,8 +12,8 @@
             shape-rendering:auto;
         }
         .axis3 text{
-            font-size:12px;
-            fill:blue;
+            font-size:10px;
+            fill:green;
         }
         .axis4 path,.axis4 line{
             fill:none;
@@ -22,7 +22,7 @@
         }
         .axis4 text{
             font-size:12px;
-            fill:blue;
+            fill:rgba(20, 138, 224, 0.96);
         }
         
     </style>
@@ -179,7 +179,7 @@
               .range([10,300]);
 
               var xAxis3 = d3.svg.axis().scale(xScale3).orient('bottom').ticks(12)
-                            .tickFormat(function(d){return d/100000000+"G";});
+                            .tickFormat(function(d){return d/(10**9)+"G";});
 
                 
               for(var i=0;i<dataSet.length;i++){
@@ -262,7 +262,7 @@
                         .range([padding4,w4-padding4]);
                var yScale4 = d3.scale.linear()
                         .domain([0,d3.max(dataSet,function(d){return d.number;})])
-                        .range([h4-padding4,padding4]);
+                        .range([h4-padding4,padding4-80]);
                var rScale4 = d3.scale.linear()
                         .domain([d3.min(dataSet,function(d){
                             return d.amount;
