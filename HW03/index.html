@@ -178,8 +178,8 @@
                              .domain([0,d3.max(dataSet,function(d){return d.amount;})])
               .range([10,300]);
 
-              var xAxis3 = d3.svg.axis().scale(xScale3).orient('bottom').ticks(12)
-                            .tickFormat(function(d){return d/(10**9)+"G";});
+              var xAxis3 = d3.svg.axis().scale(xScale3).orient('bottom').ticks(10)
+                            .tickFormat(function(d){return d/(10**7)+"G";});
 
                 
               for(var i=0;i<dataSet.length;i++){
